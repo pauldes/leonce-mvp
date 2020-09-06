@@ -1,0 +1,9 @@
+api:
+  title: Leonce MVP
+
+frontend:
+  title: Léonce = MVP
+
+crawler:
+  channel: TrashTalkProduction
+  scrolls: 5
