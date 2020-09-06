@@ -5,7 +5,7 @@ from fastapi import FastAPI
 
 from src.scrapping import youtube_channel_scrapper
 
-app = FastAPI()
+app = FastAPI(title="Leonce MVP")
 
 #api = FastAPI(title=config.API_PROJECT_NAME, openapi_url="/api/v1/openapi.json")
 #api.mount("/static", StaticFiles(directory="static"))
