@@ -5,8 +5,12 @@
     <link rel="stylesheet" href="https://cdn.rawgit.com/Chalarangelo/mini.css/v3.0.1/dist/mini-default.min.css">
 </head>
 <body>
-    <h1>Your image: {{ img_url }}</h1>
-    <img src= {{ img_url }} alt="Image description"/>
+    <div class="card">
+        {{ video_title }}
+        <a href={{ video_url }}>
+            <img src= {{ thumbnail_url }} alt={{ video_title }}/>
+        </a>
+    </div>
 </body>
 </html>
 

@@ -39,8 +39,10 @@ async def read_item(request: Request, name: str):
 
 @app.get("/random", response_class=HTMLResponse)
 async def read_item(request: Request):
-    img_url = 'https://img.youtube.com/vi/f4pRyHDYWEI/maxresdefault.jpg'
-    return templates.TemplateResponse("random.html", {"request": request, "img_url": img_url})
+    thumbnail_url = 'https://img.youtube.com/vi/f4pRyHDYWEI/maxresdefault.jpg'
+    video_title = 'Playoffs NBA 2020 : débrief dans la Conférence Est !'
+    video_url = 'https://www.youtube.com/watch?v=f4pRyHDYWEI'
+    return templates.TemplateResponse("random.html", {"request": request, "thumbnail_url": thumbnail_url, "video_title":video_title, "video_url":video_url})
 
 if __name__ == "__main__":
     uvicorn.run(app, host='0.0.0.0')
