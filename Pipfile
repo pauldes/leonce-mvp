@@ -10,6 +10,8 @@ mypy = "*"
 beautifulsoup4 = "*"
 requests = "*"
 selenium = "*"
+fastapi = "*"
+uvicorn = "*"
 
 [requires]
 python_version = "3.7"
