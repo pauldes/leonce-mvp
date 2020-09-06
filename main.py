@@ -2,13 +2,14 @@ import os
 import sys
 
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 
 from src.scrapping import youtube_channel_scrapper
 
 app = FastAPI(title="Leonce MVP")
-
 #api = FastAPI(title=config.API_PROJECT_NAME, openapi_url="/api/v1/openapi.json")
-#api.mount("/static", StaticFiles(directory="static"))
+
+app.mount("/static", StaticFiles(directory="static"))
 
 @app.on_event("startup")
 async def startup_event():
