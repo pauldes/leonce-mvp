@@ -4,6 +4,8 @@ import requests
 import urllib.parse
 import selenium.webdriver
 
+from src.model import youtube_video
+
 class YoutubeChannelScrapper:
 
     def __init__(self, channel_name: str, web_driver: selenium.webdriver=None):
@@ -41,35 +43,41 @@ class YoutubeChannelScrapper:
         with open("./data/" + file_name + ".jpg" , 'wb') as img_file:
             img_file.write(img_blob)
 
-    def scrap_channel(self, scrolls: int=0):
+    def get_channel_videos(self, scrolls: int=0) -> list:
+        """[summary]
+
+        Args:
+            scrolls (int, optional): Number of scrolls down that should be made to load the channel videos. 
+            Depending on the context, a rule of thumb is 5 scrolls for 100 videos.
+            A 1-second pause will be made after each scroll. Defaults to 0.
+
+        Returns:
+            list: A list of YoutubeVideo objects
+        """
         print("Scrapping", self.channel_url)
+        self.web_driver.get(self.channel_url)
+        time.sleep(1)
         for _ in range(scrolls):
-            time.sleep(0.5)
+            time.sleep(1)
             self.web_driver.execute_script("scroll(0, 100000);")
         time.sleep(1)
-        self.web_driver.get(self.channel_url)
         results = self.web_driver.find_elements_by_class_name("style-scope ytd-grid-video-renderer")
-        bug_counter = 0
-        videos_found = {}
+        errors_count = 0
+        videos_found = []
         for element in results:
             try:
                 video_url = element.find_element_by_id("thumbnail").get_attribute('href')
                 video_title = element.find_element_by_id("video-title").get_attribute('title')
                 if video_url is None or video_title is None:
                     raise Exception("Could not find video url or title")
-                videos_found[video_title] = video_url
+                video_obj = youtube_video.YoutubeVideo(video_url=video_url, video_title=video_title)
+                videos_found.append(video_obj)
             except Exception as e:
                 print(e)
-                bug_counter  = bug_counter + 1
-        print("Errors count:", bug_counter, "/", len(results))
+                errors_count += 1
+        print("Errors count:", errors_count, "/", len(results))
         self.web_driver.quit()
-
-    @staticmethod
-    def get_thumbnail_url(video_url: str) -> str:
-        parsed = urllib.parse.urlparse(video_url)
-        video_id = urllib.parse.parse_qs(parsed.query)['v'][0]
-        img_url = f"https://img.youtube.com/vi/{video_id}/maxresdefault.jpg"
-        return img_url
+        return videos_found
 
     @staticmethod
     def create_web_driver(firefox_exe_path: str="C:\Program Files\Mozilla Firefox\\firefox.exe", headless: bool=True):
