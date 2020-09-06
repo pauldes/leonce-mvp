@@ -11,12 +11,12 @@ import uvicorn
 
 from src.scrapping import youtube_channel_scrapper
 
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="frontend")
 
 app = FastAPI(title="Leonce MVP")
 #api = FastAPI(title=config.API_PROJECT_NAME, openapi_url="/api/v1/openapi.json")
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+#app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.on_event("startup")
 async def startup_event():
@@ -32,7 +32,8 @@ async def root():
 
 @app.get("/hello/{name}", response_class=HTMLResponse)
 async def read_item(request: Request, name: str):
-    return templates.TemplateResponse("index.html", {"request": request, "name": name})
+    ip = request.client.host
+    return templates.TemplateResponse("index.html", {"request": request, "name": name, "ip": ip})
 
 if __name__ == "__main__":
     uvicorn.run(app, host='0.0.0.0')
