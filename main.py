@@ -3,9 +3,15 @@ import sys
 
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 import uvicorn
 
 from src.scrapping import youtube_channel_scrapper
+
+templates = Jinja2Templates(directory="templates")
 
 app = FastAPI(title="Leonce MVP")
 #api = FastAPI(title=config.API_PROJECT_NAME, openapi_url="/api/v1/openapi.json")
@@ -36,3 +42,7 @@ def test():
     first = results[0]
     print(first)
     print(first.to_dict())
+
+@app.get("/hello/{name}", response_class=HTMLResponse)
+async def read_item(request: Request, name: str):
+    return templates.TemplateResponse("index.html", {"request": request, "name": name})
