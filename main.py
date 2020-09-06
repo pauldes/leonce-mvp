@@ -30,6 +30,10 @@ async def shutdown_event():
 async def root():
     return {"message": "Leonce is the real MVP."}
 
+@app.get("/hello/{name}", response_class=HTMLResponse)
+async def read_item(request: Request, name: str):
+    return templates.TemplateResponse("index.html", {"request": request, "name": name})
+
 if __name__ == "__main__":
     uvicorn.run(app, host='0.0.0.0')
 
@@ -42,7 +46,3 @@ def test():
     first = results[0]
     print(first)
     print(first.to_dict())
-
-@app.get("/hello/{name}", response_class=HTMLResponse)
-async def read_item(request: Request, name: str):
-    return templates.TemplateResponse("index.html", {"request": request, "name": name})
