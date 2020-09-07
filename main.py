@@ -44,15 +44,13 @@ async def read_item(request: Request):
     video_url = 'https://www.youtube.com/watch?v=f4pRyHDYWEI'
     return templates.TemplateResponse("random.html", {"request": request, "thumbnail_url": thumbnail_url, "video_title":video_title, "video_url":video_url})
 
-if __name__ == "__main__":
-    uvicorn.run(app, host='0.0.0.0')
-
-def test():
+def init_database():
     channel = config.crawler.channel
     scrolls = config.crawler.scrolls
     scrapper = youtube_channel_scrapper.YoutubeChannelScrapper(channel)
     results = scrapper.get_channel_videos(scrolls=scrolls)
-    print(len(results))
-    first = results[0]
-    print(first)
-    print(first.to_dict())
+    print("Got", len(results), "videos")
+    
+if __name__ == "__main__":
+    uvicorn.run(app, host='0.0.0.0')
+
