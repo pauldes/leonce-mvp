@@ -11,6 +11,7 @@ import uvicorn
 import box.box
 
 from src.scrapping import youtube_channel_scrapper
+from src.model import youtube_video
 
 config = box.Box.from_yaml(filename="config.yaml")
 templates = Jinja2Templates(directory="frontend/templates")
@@ -37,12 +38,10 @@ async def read_item(request: Request, name: str):
     ip = request.client.host
     return templates.TemplateResponse("index.html", {"request": request, "name": name, "ip": ip})
 
-@app.get("/random", response_class=HTMLResponse)
+@app.get("/home", response_class=HTMLResponse)
 async def read_item(request: Request):
-    thumbnail_url = 'https://img.youtube.com/vi/f4pRyHDYWEI/maxresdefault.jpg'
-    video_title = 'Playoffs NBA 2020 : débrief dans la Conférence Est !'
-    video_url = 'https://www.youtube.com/watch?v=f4pRyHDYWEI'
-    return templates.TemplateResponse("random.html", {"request": request, "thumbnail_url": thumbnail_url, "video_title":video_title, "video_url":video_url})
+    videos = get_videos()
+    return templates.TemplateResponse("home.html", {"request": request, "videos": videos})
 
 def init_database():
     channel = config.crawler.channel
@@ -50,7 +49,13 @@ def init_database():
     scrapper = youtube_channel_scrapper.YoutubeChannelScrapper(channel)
     results = scrapper.get_channel_videos(scrolls=scrolls)
     print("Got", len(results), "videos")
-    
+
+def get_videos():
+    video_title = 'Playoffs NBA 2020 : débrief dans la Conférence Est !'
+    video_url = 'https://www.youtube.com/watch?v=f4pRyHDYWEI'
+    video_obj = youtube_video.YoutubeVideo(video_url=video_url, video_title=video_title)
+    return [video_obj, video_obj, video_obj, video_obj]
+
 if __name__ == "__main__":
     uvicorn.run(app, host='0.0.0.0')
 

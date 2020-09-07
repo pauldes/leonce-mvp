@@ -1,0 +1,15 @@
+
+body {
+    margin-left:auto;
+    margin-right:auto;
+  }
+
+button{
+    background: #bd0000;
+    font-weight: normal;
+}
+
+button:hover{
+    background: #bd0000;
+    font-weight: bold;
+}

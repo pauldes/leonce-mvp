@@ -1,0 +1,35 @@
+<html>
+<head>
+    <title>Random !</title>
+    <link rel="stylesheet" href="https://cdn.rawgit.com/Chalarangelo/mini.css/v3.0.1/dist/mini-default.min.css">
+    <link href="{{ url_for('frontend', path='static/styles.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        {% for video in videos %}
+        <div class="row">
+            <div class="card large">
+                <div class="section">
+                {{ video.video_title }}
+                </div>
+                <div class="section">
+                    Counter : XXXX
+                </div>
+                <div class="section">
+                    <button class="shadowed">+1</button>
+                </div>
+                <div class="section">
+                    <a href={{ video_url }}>
+                        <img src= {{ video.thumbnail_url }} alt={{ video.video_title }}/>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
+
+
+
+<!-- mini.css - Docs -->
