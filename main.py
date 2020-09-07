@@ -16,10 +16,11 @@ from src.model import youtube_video
 config = box.Box.from_yaml(filename="config.yaml")
 templates = Jinja2Templates(directory="frontend/templates")
 
-app = FastAPI(title=config.api.title)
+app = FastAPI(
+    title=config.api.title,
+    description="Léonce-MVP project.",
+    version="0.1")
 app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
-#app.mount("/frontend/static", StaticFiles(directory="frontend/static"), name="frontend/static")
-#app.mount("/frontend/templates", StaticFiles(directory="frontend/templates"), name="frontend/templates")
 
 @app.on_event("startup")
 async def startup_event():
@@ -41,7 +42,7 @@ async def read_item(request: Request, name: str):
 @app.get("/home", response_class=HTMLResponse)
 async def read_item(request: Request):
     videos = get_videos()
-    return templates.TemplateResponse("home.html", {"request": request, "videos": videos})
+    return templates.TemplateResponse("home.html", {"request": request, "config": config.frontend, "videos": videos})
 
 def init_database():
     channel = config.crawler.channel

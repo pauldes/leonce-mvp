@@ -1,35 +1,62 @@
 <html>
-<head>
-    <title>Random !</title>
-    <link rel="stylesheet" href="https://cdn.rawgit.com/Chalarangelo/mini.css/v3.0.1/dist/mini-default.min.css">
-    <link href="{{ url_for('frontend', path='static/styles.css') }}" rel="stylesheet">
-</head>
-<body>
-    <div class="container">
-        {% for video in videos %}
-        <div class="row">
-            <div class="card large">
-                <div class="section">
-                {{ video.video_title }}
+    <head>
+        <title>{{ config.title }}</title>
+        <link href="{{ url_for('frontend', path='static/main-styles.css') }}" rel="stylesheet">
+        <link href="{{ url_for('frontend', path='static/custom-styles.css') }}" rel="stylesheet">
+        <link rel="icon" type="image/png" href="{{ url_for('frontend', path='icon.png') }}" />
+    </head>
+    <body>
+        <nav>
+            <div class="container">
+              <div class="grid">
+                <div class="column-xs-12 column-md-12 bottompin shortline">
+                  <p id="highlight">Léonce MVP</p>
                 </div>
-                <div class="section">
-                    Counter : XXXX
+                <!-- <div class="column-xs-12 column-md-2">
+                  <ul>
+                    <li><a href="#" class="active">Random</a></li>
+                    <li><a href="#">Ranking</a></li>
+                  </ul>
+                </div> -->
+                <div class="column-xs-12 column-md-12">
+                    Léonce has been the first unanimous, sans-sauce MVP since 2014.
                 </div>
-                <div class="section">
-                    <button class="shadowed">+1</button>
-                </div>
-                <div class="section">
-                    <a href={{ video_url }}>
-                        <img src= {{ video.thumbnail_url }} alt={{ video.video_title }}/>
-                    </a>
+              </div>
+            </div>
+          </nav>
+          <section class="gallery">
+            <div class="container">
+                <div class="grid">
+                    {% for video in videos %}
+                        <div class="column-xs-12 column-md-4">
+                          <figure class="img-container">
+                            <a href={{ video.video_url }}>
+                              <div class="img-overlay-container">
+                                <!-- <span class="img-content-hover"></span> TODO -->
+                                <img src={{ video.thumbnail_url }} />
+                                <div class="overlay" >
+                                  <div class="text-overlay">
+                                      {{video.video_title}}
+                                  </div>
+                                </div>
+                              </div>  
+                            </a>
+                          </figure>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
-        </div>
-        {% endfor %}
-    </div>
-</body>
+          </section>
+          <footer>
+            <div class="container">
+              <div class="grid">
+                <div class="column-xs-12">
+                  <p class="copyright">
+                      Made by pauldes <a href="https://github.com/pauldes/leonce-mvp">(GitHub)</a>
+                    </p>
+                </div>
+              </div>
+            </div>
+          </footer>
+    </body>
 </html>
-
-
-
-<!-- mini.css - Docs -->
