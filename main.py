@@ -1,20 +1,34 @@
 import os
 import sys
+from typing import List
 
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, HTTPException, Depends
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import uvicorn
 import box.box
+from sqlalchemy.orm import Session
 
 from src.scrapping import youtube_channel_scrapper
 from src.model import youtube_video
+from db import crud, models
+from db.database import SessionLocal, engine
 
 config = box.Box.from_yaml(filename="config.yaml")
 templates = Jinja2Templates(directory="frontend/templates")
+models.Base.metadata.create_all(bind=engine)
+
+# https://fastapi.tiangolo.com/tutorial/sql-databases/
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 app = FastAPI(
     title=config.api.title,
@@ -29,6 +43,25 @@ async def startup_event():
 @app.on_event("shutdown")
 async def shutdown_event():
     pass
+
+@app.post("/videos/", response_model=schemas.Video)
+def create_video(user: schemas.VideoCreate, db: Session = Depends(get_db)):
+    db_video = crud.get_video_by_url(db, url=video.email)
+    if db_video:
+        raise HTTPException(status_code=400, detail="Email already registered")
+    return crud.create_video(db=db, video=video)
+
+@app.get("/videos/", response_model=List[schemas.Video])
+def read_videos(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    videos = crud.get_videos(db, skip=skip, limit=limit)
+    return videos
+
+@app.get("/videos/{video_id}", response_model=schemas.Video)
+def read_video(video_id: int, db: Session = Depends(get_db)):
+    db_video = crud.get_video(db, video_id=video_id)
+    if db_video is None:
+        raise HTTPException(status_code=404, detail="Video not found")
+    return db_video
 
 @app.get("/")
 async def root():
