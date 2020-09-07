@@ -1,6 +1,7 @@
 import os
 import sys
 from typing import List
+import random
 
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
@@ -71,18 +72,35 @@ async def upvote_video(request: Request, video_id: str):
     pass
 
 @app.get("/home", response_class=HTMLResponse)
-async def show_home(request: Request):
-    videos = get_videos()
-    return templates.TemplateResponse("home.html", {"request": request, "config": config.frontend, "videos": videos})
+async def show_home(request: Request, db: Session = Depends(get_db)):
+    videos = crud.get_videos(db, skip=0, limit=1000)
+    youtube_videos = []
+    for video in videos:
+        conv_video = youtube_video.YoutubeVideo(video_url=video.url, video_title=video.title, thumbnail_url=video.thumbnail_url)
+        youtube_videos.append(conv_video)
+    random.shuffle(youtube_videos)
+    return templates.TemplateResponse("home.html", {"request": request, "config": config.frontend, "videos": youtube_videos})
 
-def init_database():
+@app.get("/update-database")
+async def update_database(request: Request, db: Session = Depends(get_db)):
+    videos = get_videos()
+    for video in videos:
+        db_video = crud.get_video_by_url(db, url=video.video_url)
+        if db_video:
+            print("Video", video.video_url, "already registered")
+        else:
+            new_video = schemas.VideoCreate(url=video.video_url, title=video.video_title, thumbnail_url=video.thumbnail_url)
+            created = crud.create_video(db=db, video=new_video)
+    return {"message": "Database have been updated."}
+
+def get_videos():
     channel = config.crawler.channel
     scrolls = config.crawler.scrolls
     scrapper = youtube_channel_scrapper.YoutubeChannelScrapper(channel)
     results = scrapper.get_channel_videos(scrolls=scrolls)
-    print("Got", len(results), "videos")
+    return results
 
-def get_videos():
+def get_videos_example():
     video_title = 'Playoffs NBA 2020 : débrief dans la Conférence Est !'
     video_url = 'https://www.youtube.com/watch?v=f4pRyHDYWEI'
     video_obj = youtube_video.YoutubeVideo(video_url=video_url, video_title=video_title)
