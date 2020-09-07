@@ -14,15 +14,14 @@ from sqlalchemy.orm import Session
 
 from src.scrapping import youtube_channel_scrapper
 from src.model import youtube_video
-from db import crud, models, schemas
-from db.database import SessionLocal, engine
+from db import crud, models, schemas, database
 
 config = box.Box.from_yaml(filename="config.yaml")
 templates = Jinja2Templates(directory="frontend/templates")
-models.Base.metadata.create_all(bind=engine)
+models.Base.metadata.create_all(bind=database.engine)
 
 def get_db():
-    db = SessionLocal()
+    db = database.SessionLocal()
     try:
         yield db
     finally:
@@ -43,7 +42,7 @@ async def shutdown_event():
     pass
 
 @app.post("/videos/", response_model=schemas.Video)
-def create_video(user: schemas.VideoCreate, db: Session = Depends(get_db)):
+def create_video(video: schemas.VideoCreate, db: Session = Depends(get_db)):
     db_video = crud.get_video_by_url(db, url=video.url)
     if db_video:
         raise HTTPException(status_code=400, detail="Video already registered")
@@ -66,13 +65,13 @@ async def root():
     return {"message": "Leonce is the real MVP."}
 
 @app.get("/upvote/{video_id}")
-async def read_item(request: Request, video_id: str):
+async def upvote_video(request: Request, video_id: str):
     ip = request.client.host
     raise NotImplementedError
     pass
 
 @app.get("/home", response_class=HTMLResponse)
-async def read_item(request: Request):
+async def show_home(request: Request):
     videos = get_videos()
     return templates.TemplateResponse("home.html", {"request": request, "config": config.frontend, "videos": videos})
 

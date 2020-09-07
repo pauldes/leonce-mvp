@@ -23,7 +23,7 @@ class VoteCreate(VoteBase):
 class Video(VideoBase):
     id: int
     is_active: bool
-    items: List[Vote] = []
+    votes: List[Vote] = []
 
     class Config:
         orm_mode = True
