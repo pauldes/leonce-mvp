@@ -37,6 +37,7 @@ async def root():
 @app.get("/upvote/{video_id}")
 async def read_item(request: Request, video_id: str):
     ip = request.client.host
+    raise NotImplementedError
     pass
 
 @app.get("/home", response_class=HTMLResponse)
