@@ -34,7 +34,7 @@ async def shutdown_event():
 async def root():
     return {"message": "Leonce is the real MVP."}
 
-@app.get("/upvote/{video_id}", response_class=HTMLResponse)
+@app.get("/upvote/{video_id}")
 async def read_item(request: Request, video_id: str):
     ip = request.client.host
     pass
