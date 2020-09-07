@@ -104,7 +104,7 @@ def get_videos_example():
     video_title = 'Playoffs NBA 2020 : débrief dans la Conférence Est !'
     video_url = 'https://www.youtube.com/watch?v=f4pRyHDYWEI'
     video_obj = youtube_video.YoutubeVideo(video_url=video_url, video_title=video_title)
-    return [video_obj, video_obj, video_obj, video_obj]
+    return [video_obj]*20
 
 if __name__ == "__main__":
     uvicorn.run(app, host='0.0.0.0')
