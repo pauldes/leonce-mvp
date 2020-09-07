@@ -19,8 +19,7 @@ class Vote(Base):
     __tablename__ = "votes"
 
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, index=True)
-    description = Column(String, index=True)
-    owner_id = Column(Integer, ForeignKey("videos.id"))
+    ip = Column(String)
+    video_id = Column(Integer, ForeignKey("videos.id"))
     
     video = relationship("Video", back_populates="votes")

@@ -7,13 +7,24 @@ class VideoBase(BaseModel):
     title: Optional[str] = None
     thumbnail_url: Optional[str] = None
 
+class VoteBase(BaseModel):
+    ip: str
+    video_id: int
+
 class Video(VideoBase):
     id: int
-    url: str
-    title: str
-    thumbnail_url: str
     is_active: bool
     items: List[Vote] = []
+
+    class Config:
+        orm_mode = True
+
+class VideoCreate(VideoBase):
+    pass
+
+class Vote(VoteBase):
+    id: int
+    video: Video
 
     class Config:
         orm_mode = True
