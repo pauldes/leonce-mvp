@@ -11,20 +11,19 @@ class VoteBase(BaseModel):
     ip: str
     video_id: int
 
-class Video(VideoBase):
+class Vote(VoteBase):
     id: int
-    is_active: bool
-    items: List[Vote] = []
 
     class Config:
         orm_mode = True
 
-class VideoCreate(VideoBase):
+class VoteCreate(VoteBase):
     pass
 
-class Vote(VoteBase):
+class Video(VideoBase):
     id: int
-    video: Video
+    is_active: bool
+    items: List[Vote] = []
 
     class Config:
         orm_mode = True

@@ -14,14 +14,12 @@ from sqlalchemy.orm import Session
 
 from src.scrapping import youtube_channel_scrapper
 from src.model import youtube_video
-from db import crud, models
+from db import crud, models, schemas
 from db.database import SessionLocal, engine
 
 config = box.Box.from_yaml(filename="config.yaml")
 templates = Jinja2Templates(directory="frontend/templates")
 models.Base.metadata.create_all(bind=engine)
-
-# https://fastapi.tiangolo.com/tutorial/sql-databases/
 
 def get_db():
     db = SessionLocal()
@@ -46,9 +44,9 @@ async def shutdown_event():
 
 @app.post("/videos/", response_model=schemas.Video)
 def create_video(user: schemas.VideoCreate, db: Session = Depends(get_db)):
-    db_video = crud.get_video_by_url(db, url=video.email)
+    db_video = crud.get_video_by_url(db, url=video.url)
     if db_video:
-        raise HTTPException(status_code=400, detail="Email already registered")
+        raise HTTPException(status_code=400, detail="Video already registered")
     return crud.create_video(db=db, video=video)
 
 @app.get("/videos/", response_model=List[schemas.Video])

@@ -1,17 +1,18 @@
+import os
+
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./sql_app.db"
-# SQLALCHEMY_DATABASE_URL = "postgresql://user:password@postgresserver/db"
+db_url = os.environ['SQLALCHEMY_DATABASE_URL']
 
-if SQLALCHEMY_DATABASE_URL.startswith("sqlite"):
+if db_url.startswith("sqlite"):
     engine = create_engine(
-        SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+        db_url, connect_args={"check_same_thread": False}
     )
 else:
     engine = create_engine(
-        SQLALCHEMY_DATABASE_URL
+        db_url
     )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

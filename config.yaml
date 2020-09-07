@@ -7,3 +7,7 @@ frontend:
 crawler:
   channel: TrashTalkProduction
   scrolls: 5
+
+database:
+  dev: hello
+  prod: hello
