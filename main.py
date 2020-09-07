@@ -34,10 +34,10 @@ async def shutdown_event():
 async def root():
     return {"message": "Leonce is the real MVP."}
 
-@app.get("/hello/{name}", response_class=HTMLResponse)
-async def read_item(request: Request, name: str):
+@app.get("/upvote/{video_id}", response_class=HTMLResponse)
+async def read_item(request: Request, video_id: str):
     ip = request.client.host
-    return templates.TemplateResponse("index.html", {"request": request, "name": name, "ip": ip})
+    pass
 
 @app.get("/home", response_class=HTMLResponse)
 async def read_item(request: Request):
