@@ -1,9 +1,9 @@
 <html>
     <head>
         <title>{{ config.title }}</title>
-        <link href="{{ url_for('frontend', path='static/main-styles.css') }}" rel="stylesheet">
-        <link href="{{ url_for('frontend', path='static/custom-styles.css') }}" rel="stylesheet">
-        <link rel="icon" type="image/png" href="{{ url_for('frontend', path='icon.png') }}" />
+        <link href="{{url_for('frontend', path='static/main-styles.css')}}" rel="stylesheet">
+        <link href="{{url_for('frontend', path='static/custom-styles.css')}}" rel="stylesheet">
+        <link rel="icon" type="image/png" href="{{url_for('frontend', path='icon.png')}}" />
     </head>
     <body>
         <nav>
@@ -30,10 +30,10 @@
                     {% for video in videos %}
                         <div class="column-xs-12 column-sm-6 column-md-6">
                           <figure class="img-container">
-                            <a href={{ video.video_url }}>
+                            <a href="{{video.video_url}}">
                               <div class="img-overlay-container">
                                 <!-- <span class="img-content-hover"></span> TODO -->
-                                <img src={{ video.thumbnail_url }} loading="lazy" />
+                                <img src="{{video.thumbnail_url}}" loading="lazy" />
                                 <div class="overlay" >
                                   <div class="text-overlay">
                                       {{video.video_title}}
