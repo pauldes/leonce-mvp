@@ -6,7 +6,7 @@ frontend:
 
 crawler:
   channel: TrashTalkProduction
-  scrolls: 5
+  scrolls: 100
 
 database:
   dev: hello
