@@ -6,7 +6,7 @@ import random
 from fastapi import FastAPI, BackgroundTasks
 from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, Request, HTTPException, Depends
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import uvicorn
@@ -63,7 +63,7 @@ def read_video(video_id: int, db: Session = Depends(get_db)):
 
 @app.get("/")
 async def root():
-    return {"message": "Leonce is the real MVP."}
+    return RedirectResponse(url='/redirected')
 
 @app.post("/upvote/{video_id}")
 async def upvote_video(request: Request, video_id: str, db: Session = Depends(get_db)):
