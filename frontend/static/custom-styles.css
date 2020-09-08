@@ -2,12 +2,13 @@
     color: #bd0000;
     font-size: 300%;
     font-weight: bold;
-    line-height: 0;
+    line-height: normal;
+    margin: 0 0 1rem 0;
   }
 
 .subhighlight {
     font-size: 150%;
-    line-height: 1rem;
+    line-height: normal;
 }
 
 body {
@@ -17,7 +18,8 @@ body {
 }
 
 .shortline {
-    line-height: 0.5
+    line-height: 0.5;
+
 }
 
 .centerpin{
