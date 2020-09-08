@@ -9,16 +9,16 @@
         <nav>
             <div class="container">
               <div class="grid">
-                <div class="column-xs-12 column-md-12 bottompin shortline">
+                <div class="column-xs-10 shortline">
                   <p id="highlight">Léonce MVP</p>
                 </div>
-                <!-- <div class="column-xs-12 column-md-2">
+                <div class="column-xs-2">
                   <ul>
-                    <li><a href="#" class="active">Random</a></li>
+                    <li><a href="/home" class="active">Random</a></li>
                     <li><a href="#">Ranking</a></li>
                   </ul>
-                </div> -->
-                <div class="column-xs-12 column-md-12 subhighlight">
+                </div>
+                <div class="column-xs-12 subhighlight">
                     Léonce has been the first unanimous, sans-sauce MVP since 2014.
                 </div>
               </div>
@@ -33,7 +33,7 @@
                             <a href={{ video.video_url }}>
                               <div class="img-overlay-container">
                                 <!-- <span class="img-content-hover"></span> TODO -->
-                                <img src={{ video.thumbnail_url }} />
+                                <img src={{ video.thumbnail_url }} loading="lazy" />
                                 <div class="overlay" >
                                   <div class="text-overlay">
                                       {{video.video_title}}
