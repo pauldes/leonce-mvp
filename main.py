@@ -108,8 +108,9 @@ def update_database_effective(request: Request, db: Session = Depends(get_db)):
 
 @app.get("/update-database")
 async def update_database(background_tasks: BackgroundTasks, request: Request, db: Session = Depends(get_db)):
-    background_tasks.add_task(update_database_effective, request, db=db)
-    return {"message": "Database will be updated."}
+    # background_tasks.add_task(update_database_effective, request, db=db)
+    # return {"message": "Database will be updated."}
+    return {"message": "Database update is disabled."}
 
 def get_videos():
     channel = config.crawler.channel
