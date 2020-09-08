@@ -109,8 +109,14 @@ img {
     padding: 1rem 4rem 4rem 4rem;
   }
 
-  nav {
+nav {
     padding: 1rem 0 0.5rem 0;
+    list-style: none
+}
+
+#nav-menu {
+    list-style: none;
+    padding: 1rem 1rem 0 1rem;
 }
 
 .img-container {
