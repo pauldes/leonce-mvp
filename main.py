@@ -91,7 +91,7 @@ async def show_ranked(request: Request, db: Session = Depends(get_db)):
 @app.get("/home", response_class=HTMLResponse)
 async def show_home(request: Request, db: Session = Depends(get_db)):
     videos = crud.get_videos(db, skip=0, limit=666)
-    return templates.TemplateResponse("home.html", {"request": request, "config": config.frontend, "videos": videos}
+    return templates.TemplateResponse("home.html", {"request": request, "config": config.frontend, "videos": videos})
 
 def update_database_effective(request: Request, db: Session = Depends(get_db)):
     videos = get_videos()
