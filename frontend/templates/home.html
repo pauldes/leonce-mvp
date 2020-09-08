@@ -4,22 +4,23 @@
         <link href="{{url_for('frontend', path='static/main-styles.css')}}" rel="stylesheet">
         <link href="{{url_for('frontend', path='static/custom-styles.css')}}" rel="stylesheet">
         <link rel="icon" type="image/png" href="{{url_for('frontend', path='icon.png')}}" />
+        <script src="{{url_for('frontend', path='static/script.js')}}"></script>
     </head>
     <body>
         <nav>
             <div class="container">
               <div class="grid">
-                <div class="column-xs-10 shortline">
+                <div class="column-xs-12 shortline">
                   <p id="highlight">Léonce MVP</p>
-                </div>
-                <div class="column-xs-2">
-                  <ul>
-                    <li><a href="/home" class="active">Random</a></li>
-                    <li><a href="#">Ranking</a></li>
-                  </ul>
                 </div>
                 <div class="column-xs-12 subhighlight">
                     Léonce has been the first unanimous, sans-sauce MVP since 2014.
+                </div>
+                <div class="column-xs-12 subhighlight">
+                  <ul>
+                    <li><a href="/home" class="active">Random</a></li>
+                    <li><a href="">Ranking</a></li>
+                  </ul>
                 </div>
               </div>
             </div>
@@ -30,18 +31,19 @@
                     {% for video in videos %}
                         <div class="column-xs-12 column-sm-6 column-md-6">
                           <figure class="img-container">
-                            <a href="{{video.video_url}}">
+                            <a href="{{video.url}}">
                               <div class="img-overlay-container">
                                 <!-- <span class="img-content-hover"></span> TODO -->
                                 <img src="{{video.thumbnail_url}}" loading="lazy" />
                                 <div class="overlay" >
                                   <div class="text-overlay">
-                                      {{video.video_title}}
+                                      {{video.title}}
                                   </div>
                                 </div>
                               </div>  
                             </a>
                           </figure>
+                          <button hidden onclick="upvote('{{video.id}}')"> +1</button>
                         </div>
                     {% endfor %}
                 </div>
