@@ -8,8 +8,12 @@ def get_video(db: Session, video_id: int):
 def get_video_by_url(db: Session, url: str):
     return db.query(models.Video).filter(models.Video.url == url).first()
 
-def get_videos(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Video).offset(skip).limit(limit).all()
+def get_videos(db: Session, skip: int = 0, limit: int = 100, ordered_by_votes: bool = False):
+    if ordered_by_votes:
+        req = db.query(models.Video).order_by(model.Entry.amount.desc()).offset(skip).limit(limit).all()
+    else 
+        req = db.query(models.Video).offset(skip).limit(limit).all()
+    return req
 
 def create_video(db: Session, video: schemas.VideoCreate):
     #db_video = models.Video(url=video.url, title=video.title, thumbnail_url=video.thumbnail_url)

@@ -77,11 +77,21 @@ async def upvote_video(request: Request, video_id: str, db: Session = Depends(ge
     vote = schemas.VoteCreate(ip=ip, video_id=video_id)
     return crud.create_vote(db=db, vote=vote)
 
+@app.get("/random", response_class=HTMLResponse)
+async def show_random(request: Request, db: Session = Depends(get_db)):
+    videos = crud.get_videos(db, skip=0, limit=666)
+    random.shuffle(videos)
+    return templates.TemplateResponse("home.html", {"request": request, "config": config.frontend, "videos": videos})
+
+@app.get("/ranked", response_class=HTMLResponse)
+async def show_ranked(request: Request, db: Session = Depends(get_db)):
+    videos = crud.get_videos(db, skip=0, limit=666, ordered_by_votes=True)
+    return templates.TemplateResponse("home.html", {"request": request, "config": config.frontend, "videos": videos})
+
 @app.get("/home", response_class=HTMLResponse)
 async def show_home(request: Request, db: Session = Depends(get_db)):
-    videos = crud.get_videos(db, skip=0, limit=1000)
-    #random.shuffle(videos)
-    return templates.TemplateResponse("home.html", {"request": request, "config": config.frontend, "videos": videos})
+    videos = crud.get_videos(db, skip=0, limit=666)
+    return templates.TemplateResponse("home.html", {"request": request, "config": config.frontend, "videos": videos}
 
 def update_database_effective(request: Request, db: Session = Depends(get_db)):
     videos = get_videos()
