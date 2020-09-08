@@ -3,7 +3,7 @@ import sys
 from typing import List
 import random
 
-from fastapi import FastAPI
+from fastapi import FastAPI, BackgroundTasks
 from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, Request, HTTPException, Depends
 from fastapi.responses import HTMLResponse
@@ -81,8 +81,7 @@ async def show_home(request: Request, db: Session = Depends(get_db)):
     random.shuffle(youtube_videos)
     return templates.TemplateResponse("home.html", {"request": request, "config": config.frontend, "videos": youtube_videos})
 
-@app.get("/update-database")
-async def update_database(request: Request, db: Session = Depends(get_db)):
+def update_database_effective(request: Request, db: Session = Depends(get_db)):
     videos = get_videos()
     for video in videos:
         db_video = crud.get_video_by_url(db, url=video.video_url)
@@ -91,7 +90,12 @@ async def update_database(request: Request, db: Session = Depends(get_db)):
         else:
             new_video = schemas.VideoCreate(url=video.video_url, title=video.video_title, thumbnail_url=video.thumbnail_url)
             created = crud.create_video(db=db, video=new_video)
-    return {"message": "Database have been updated."}
+    print("Update done.")
+
+@app.get("/update-database")
+async def update_database(background_tasks: BackgroundTasks, request: Request, db: Session = Depends(get_db)):
+    background_tasks.add_task(update_database_effective, request, db=db)
+    return {"message": "Database will be updated."}
 
 def get_videos():
     channel = config.crawler.channel
