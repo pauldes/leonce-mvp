@@ -63,7 +63,7 @@ def read_video(video_id: int, db: Session = Depends(get_db)):
 
 @app.get("/")
 async def root():
-    return RedirectResponse(url='/redirected')
+    return RedirectResponse(url='/random')
 
 @app.post("/upvote/{video_id}")
 async def upvote_video(request: Request, video_id: str, db: Session = Depends(get_db)):
