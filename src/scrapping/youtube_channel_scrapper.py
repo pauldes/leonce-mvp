@@ -70,7 +70,7 @@ class YoutubeChannelScrapper:
                 video_title = element.find_element_by_id("video-title").get_attribute('title')
                 if video_url is None or video_title is None:
                     raise Exception("Could not find video url or title")
-                video_obj = youtube_video.YoutubeVideo(video_url=video_url, video_title=video_title)
+                video_obj = youtube_video.YoutubeVideo(url=video_url, title=video_title)
                 videos_found.append(video_obj)
             except Exception as e:
                 print(e)
