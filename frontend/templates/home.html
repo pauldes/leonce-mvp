@@ -14,7 +14,7 @@
                   <p id="highlight">Léonce MVP</p>
                 </div>
                 <div class="column-xs-12 subhighlight">
-                    Léonce has been the first unanimous, sans-sauce MVP since 2014.
+                    Since 2014, Léonce has consistently been nominated unanimous, sans-sauce MVP 👌🏼
                 </div>
                 <div class="column-xs-12 subhighlight">
                   <ul>
@@ -31,19 +31,24 @@
                     {% for video in videos %}
                         <div class="column-xs-12 column-sm-6 column-md-6">
                           <figure class="img-container">
-                            <a href="{{video.url}}">
                               <div class="img-overlay-container">
                                 <!-- <span class="img-content-hover"></span> TODO -->
                                 <img src="{{video.thumbnail_url}}" loading="lazy" />
                                 <div class="overlay" >
                                   <div class="text-overlay">
-                                      {{video.title}}
+                                    <div class="title-displayer">
+                                      <a href="{{video.url}}">
+                                        {{video.title}}
+                                      </a>
+                                    </div>
+                                    <button class="vote-counter" onclick="upvote('{{video.id}}')">
+                                      Upvote! ({{video.votes|length}})
+                                    </button>
                                   </div>
                                 </div>
                               </div>  
-                            </a>
+                            
                           </figure>
-                          <button hidden onclick="upvote('{{video.id}}')"> +1</button>
                         </div>
                     {% endfor %}
                 </div>
