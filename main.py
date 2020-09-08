@@ -75,7 +75,7 @@ async def upvote_video(request: Request, video_id: str, db: Session = Depends(ge
         return {message: "Vote already registered for IP " + ip + " and video " + video_id}
         # TODO set the button to "upvoted"
         # Choose if we allow multiple votes per IP..
-    else:.
+    else:
         vote = schemas.VoteCreate(ip=ip, video_id=video_id)
         return crud.create_vote(db=db, vote=vote)
 
