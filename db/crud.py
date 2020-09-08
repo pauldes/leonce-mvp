@@ -11,7 +11,7 @@ def get_video_by_url(db: Session, url: str):
 def get_videos(db: Session, skip: int = 0, limit: int = 100, ordered_by_votes: bool = False):
     if ordered_by_votes:
         req = db.query(models.Video).order_by(model.Entry.amount.desc()).offset(skip).limit(limit).all()
-    else 
+    else:
         req = db.query(models.Video).offset(skip).limit(limit).all()
     return req
 
