@@ -18,3 +18,13 @@ def create_video(db: Session, video: schemas.VideoCreate):
     db.commit()
     db.refresh(db_video)
     return db_video
+
+def get_vote_by_ip_and_video_id(db: Session, ip: str, video_id: str):
+    return db.query(models.Vote).filter(models.Vote.ip == ip).filter(models.Vote.video_id == video_id).first()
+
+def create_vote(db: Session, vote: schemas.VoteCreate):
+    db_vote = models.Vote(**vote.dict())
+    db.add(db_vote)
+    db.commit()
+    db.refresh(db_vote)
+    return db_vote

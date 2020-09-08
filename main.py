@@ -65,21 +65,28 @@ def read_video(video_id: int, db: Session = Depends(get_db)):
 async def root():
     return {"message": "Leonce is the real MVP."}
 
-@app.get("/upvote/{video_id}")
-async def upvote_video(request: Request, video_id: str):
+@app.post("/upvote/{video_id}")
+async def upvote_video(request: Request, video_id: str, db: Session = Depends(get_db)):
     ip = request.client.host
-    raise NotImplementedError
-    pass
+    #TODO hash+salt IP
+    db_vote = crud.get_vote_by_ip_and_video_id(db, ip, video_id)
+    if db_vote:
+        #raise HTTPException(status_code=400, detail="Vote already registered")
+        print("Vote already registered for IP", ip, "and video", video_id)
+        #TODO remove HTML button
+    vote = schemas.VoteCreate(ip=ip, video_id=video_id)
+    return crud.create_vote(db=db, vote=vote)
 
 @app.get("/home", response_class=HTMLResponse)
 async def show_home(request: Request, db: Session = Depends(get_db)):
     videos = crud.get_videos(db, skip=0, limit=1000)
-    youtube_videos = []
-    for video in videos:
-        conv_video = youtube_video.YoutubeVideo(video_url=video.url, video_title=video.title, thumbnail_url=video.thumbnail_url)
-        youtube_videos.append(conv_video)
-    random.shuffle(youtube_videos)
-    return templates.TemplateResponse("home.html", {"request": request, "config": config.frontend, "videos": youtube_videos})
+    # youtube_videos = []
+    # for video in videos:
+    #     conv_video = youtube_video.YoutubeVideo(video_url=video.url, video_title=video.title, thumbnail_url=video.thumbnail_url)
+    #     youtube_videos.append(conv_video)
+    # random.shuffle(youtube_videos)
+    random.shuffle(videos)
+    return templates.TemplateResponse("home.html", {"request": request, "config": config.frontend, "videos": videos})
 
 def update_database_effective(request: Request, db: Session = Depends(get_db)):
     videos = get_videos()
