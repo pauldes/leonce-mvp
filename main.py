@@ -73,19 +73,14 @@ async def upvote_video(request: Request, video_id: str, db: Session = Depends(ge
     if db_vote:
         #raise HTTPException(status_code=400, detail="Vote already registered")
         print("Vote already registered for IP", ip, "and video", video_id)
-        #TODO remove HTML button
+        #TODO set the button to "upvoted"
     vote = schemas.VoteCreate(ip=ip, video_id=video_id)
     return crud.create_vote(db=db, vote=vote)
 
 @app.get("/home", response_class=HTMLResponse)
 async def show_home(request: Request, db: Session = Depends(get_db)):
     videos = crud.get_videos(db, skip=0, limit=1000)
-    # youtube_videos = []
-    # for video in videos:
-    #     conv_video = youtube_video.YoutubeVideo(video_url=video.url, video_title=video.title, thumbnail_url=video.thumbnail_url)
-    #     youtube_videos.append(conv_video)
-    # random.shuffle(youtube_videos)
-    random.shuffle(videos)
+    #random.shuffle(videos)
     return templates.TemplateResponse("home.html", {"request": request, "config": config.frontend, "videos": videos})
 
 def update_database_effective(request: Request, db: Session = Depends(get_db)):
