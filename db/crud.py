@@ -10,11 +10,12 @@ def get_video_by_url(db: Session, url: str):
 
 def get_videos(db: Session, skip: int = 0, limit: int = 100, ordered_by_votes: bool = False):
     if ordered_by_votes:
-        req = db.query(models.Video).offset(skip).limit(limit).all()
-        #req = db.query(models.Video).order_by(models.Video.votes.length().desc()).offset(skip).limit(limit).all()
+        res = db.query(models.Video).offset(skip).limit(limit).all()
+        res = sorted(res, key = lambda video: len(video.votes), reverse=True )
+        #TODO SQL ordering instead of python
     else:
-        req = db.query(models.Video).offset(skip).limit(limit).all()
-    return req
+        res = db.query(models.Video).offset(skip).limit(limit).all()
+    return res
 
 def create_video(db: Session, video: schemas.VideoCreate):
     #db_video = models.Video(url=video.url, title=video.title, thumbnail_url=video.thumbnail_url)
