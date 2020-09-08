@@ -8,4 +8,4 @@ A little project for fun and the occasion to learn :
 - Pydantic
 - Selenium
 
-See the results at (leonce-mvp.herokuapp.com/)[leonce-mvp.herokuapp.com/]
+See the results at [leonce-mvp.herokuapp.com/](leonce-mvp.herokuapp.com/)
