@@ -1,6 +1,7 @@
 # Data
 data/*
 *.db
+.vscode
 
 
 # Byte-compiled / optimized / DLL files
