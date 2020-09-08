@@ -74,7 +74,9 @@ async def upvote_video(request: Request, video_id: str, db: Session = Depends(ge
         #raise HTTPException(status_code=400, detail="Vote already registered")
         print("Vote already registered for IP", ip, "and video", video_id)
         #TODO set the button to "upvoted"
-    vote = schemas.VoteCreate(ip=ip, video_id=video_id)
+    else:
+        # Choose if we allow multiple votes per IP...
+        vote = schemas.VoteCreate(ip=ip, video_id=video_id)
     return crud.create_vote(db=db, vote=vote)
 
 @app.get("/random", response_class=HTMLResponse)
