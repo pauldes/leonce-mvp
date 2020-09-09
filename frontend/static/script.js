@@ -1,6 +1,6 @@
 function upvote(video_id) {
     let data = {}
-    let url =  "/upvote/" + video_id;
+    let url =  "/api/upvote/" + video_id;
     postRequest(data, url);
   }
   
@@ -11,6 +11,9 @@ function postRequest(data, url){
     xhr.onreadystatechange = function () { 
         if (xhr.readyState === 4 && xhr.status != 200) {
             alert(this.responseText); 
+        }
+        else {
+            console.log(this.responseText)
         }
     };
     var data = JSON.stringify(data);

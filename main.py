@@ -42,19 +42,19 @@ async def startup_event():
 async def shutdown_event():
     pass
 
-@app.post("/videos/", response_model=schemas.Video)
+@app.post("/api/videos/", response_model=schemas.Video)
 def create_video(video: schemas.VideoCreate, db: Session = Depends(get_db)):
     db_video = crud.get_video_by_url(db, url=video.url)
     if db_video:
         raise HTTPException(status_code=400, detail="Video already registered")
     return crud.create_video(db=db, video=video)
 
-@app.get("/videos/", response_model=List[schemas.Video])
+@app.get("/api/videos/", response_model=List[schemas.Video])
 def read_videos(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     videos = crud.get_videos(db, skip=skip, limit=limit)
     return videos
 
-@app.get("/videos/{video_id}", response_model=schemas.Video)
+@app.get("/api/videos/{video_id}", response_model=schemas.Video)
 def read_video(video_id: int, db: Session = Depends(get_db)):
     db_video = crud.get_video(db, video_id=video_id)
     if db_video is None:
@@ -65,7 +65,7 @@ def read_video(video_id: int, db: Session = Depends(get_db)):
 async def root():
     return RedirectResponse(url='/random')
 
-@app.post("/upvote/{video_id}")
+@app.post("/api/upvote/{video_id}")
 async def upvote_video(request: Request, video_id: str, db: Session = Depends(get_db)):
     ip = request.client.host
     #TODO hash+salt IP
@@ -106,7 +106,7 @@ def update_database_effective(request: Request, db: Session = Depends(get_db)):
             created = crud.create_video(db=db, video=new_video)
     print("Update done.")
 
-@app.get("/update-database")
+@app.get("/api/update-database")
 async def update_database(background_tasks: BackgroundTasks, request: Request, db: Session = Depends(get_db)):
     # background_tasks.add_task(update_database_effective, request, db=db)
     # return {"message": "Database will be updated."}
