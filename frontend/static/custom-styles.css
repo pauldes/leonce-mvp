@@ -66,15 +66,15 @@ img {
     font-size: 1.5em;
     line-height: 1.2em;
     font-weight: 500;
-    opacity: 1.0
+    opacity: 1.0;
   }
 
 .vote-counter {
-    color: #6d6d6d;
+    color: #424242;
     font-size: 1.5em;
     line-height: 2.1em;
     margin: 10 10 10 10;
-    font-weight: 500;
+    font-weight: lighter;
     opacity: 1.0;
     background-color: transparent;
     border: none;
@@ -82,10 +82,9 @@ img {
 }
 
 .vote-counter:hover {
-    color: white;
-    background-color: #bd0000;
     border: none;
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    font-weight: bold;
+    text-shadow: 4px 4px 8px rgb(94, 94, 94);
 }
 
 .overlay {
@@ -121,9 +120,24 @@ nav {
     padding: 1rem 1rem 0 1rem;
 }
 
+#nav-menu li:hover {
+    /* text-decoration: underline; */
+    color: #2e2e2e;
+    font-weight: bold;
+    text-shadow: 4px 4px 8px rgb(94, 94, 94);
+}
+
 .img-container {
     width: 100%;
     height:auto;
     cursor: pointer;
     overflow: hidden;
   }
+
+
+a {
+    color: #2e2e2e;
+    text-decoration: none;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
