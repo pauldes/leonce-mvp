@@ -102,7 +102,7 @@ def update_database_effective(request: Request, db: Session = Depends(get_db)):
         if db_video:
             print("Video", video.url, "already registered")
         else:
-            new_video = schemas.VideoCreate(url=video.url, title=video.video_title, thumbnail_url=video.thumbnail_url)
+            new_video = schemas.VideoCreate(url=video.url, title=video.title, thumbnail_url=video.thumbnail_url)
             created = crud.create_video(db=db, video=new_video)
     print("Update done.")
 
@@ -122,7 +122,7 @@ def get_videos():
 def get_videos_example():
     video_title = 'Playoffs NBA 2020 : débrief dans la Conférence Est !'
     video_url = 'https://www.youtube.com/watch?v=f4pRyHDYWEI'
-    video_obj = youtube_video.YoutubeVideo(video_url=video_url, video_title=video_title)
+    video_obj = youtube_video.YoutubeVideo(url=video_url, title=video_title)
     return [video_obj]*20
 
 if __name__ == "__main__":
