@@ -46,7 +46,7 @@ async def shutdown_event():
 def create_video(video: schemas.VideoCreate, db: Session = Depends(get_db)):
     db_video = crud.get_video_by_url(db, url=video.url)
     if db_video:
-        raise HTTPException(status_code=400, detail="Video already registered")
+        raise HTTPException(status_code=403, detail="Video already registered")
     return crud.create_video(db=db, video=video)
 
 @app.get("/api/videos/", response_model=List[schemas.Video])
@@ -71,8 +71,8 @@ async def upvote_video(request: Request, video_id: str, db: Session = Depends(ge
     #TODO hash+salt IP
     db_vote = crud.get_vote_by_ip_and_video_id(db, ip, video_id)
     if db_vote:
-        # raise HTTPException(status_code=400, detail="Vote already registered")
-        return {"message": "Vote already registered for IP " + ip + " and video " + video_id}
+        #raise HTTPException(status_code=403, detail="Vote already registered for IP " + ip + " and video " + video_id)
+        raise HTTPException(status_code=403, detail="Vote already registered for this IP and video")
         # TODO set the button to "upvoted"
         # Choose if we allow multiple votes per IP..
     else:
