@@ -2,6 +2,7 @@ import os
 import sys
 from typing import List
 import random
+import hashlib
 
 from fastapi import FastAPI, BackgroundTasks
 from fastapi.staticfiles import StaticFiles
@@ -68,15 +69,14 @@ async def root():
 @app.post("/api/upvote/{video_id}")
 async def upvote_video(request: Request, video_id: str, db: Session = Depends(get_db)):
     ip = request.client.host
-    #TODO hash+salt IP
-    db_vote = crud.get_vote_by_ip_and_video_id(db, ip, video_id)
+    hashed_ip = hashlib.sha256(ip.encode('utf-8')).hexdigest()
+    db_vote = crud.get_vote_by_ip_and_video_id(db, hashed_ip, video_id)
     if db_vote:
-        #raise HTTPException(status_code=403, detail="Vote already registered for IP " + ip + " and video " + video_id)
+        #raise HTTPException(status_code=403, detail="Vote already registered for IP " + hashed_ip + " and video " + video_id)
         raise HTTPException(status_code=403, detail="Vote already registered for this IP and video")
-        # TODO set the button to "upvoted"
         # Choose if we allow multiple votes per IP..
     else:
-        vote = schemas.VoteCreate(ip=ip, video_id=video_id)
+        vote = schemas.VoteCreate(ip=hashed_ip, video_id=video_id)
         return crud.create_vote(db=db, vote=vote)
 
 @app.get("/random", response_class=HTMLResponse)
