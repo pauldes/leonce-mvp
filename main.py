@@ -98,11 +98,11 @@ async def show_home(request: Request, db: Session = Depends(get_db)):
 def update_database_effective(request: Request, db: Session = Depends(get_db)):
     videos = get_videos()
     for video in videos:
-        db_video = crud.get_video_by_url(db, url=video.video_url)
+        db_video = crud.get_video_by_url(db, url=video.url)
         if db_video:
-            print("Video", video.video_url, "already registered")
+            print("Video", video.url, "already registered")
         else:
-            new_video = schemas.VideoCreate(url=video.video_url, title=video.video_title, thumbnail_url=video.thumbnail_url)
+            new_video = schemas.VideoCreate(url=video.url, title=video.video_title, thumbnail_url=video.thumbnail_url)
             created = crud.create_video(db=db, video=new_video)
     print("Update done.")
 
