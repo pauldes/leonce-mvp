@@ -4,6 +4,12 @@ function upvote(video_id) {
     postRequest(data, url, video_id);
   }
 
+function setClicked(nav_item_id) {
+    document.getElementById(nav_item_id).classList.add('selected-nav-item');
+    document.getElementById(nav_item_id).classList.remove('unselected-nav-item');
+    console.log(document.getElementById(nav_item_id).className)
+}
+
 function incrementVoteCount(video_id){
     var elem_id = "vote-total-number-" + video_id
     var vote_number = document.getElementById(elem_id).innerHTML;

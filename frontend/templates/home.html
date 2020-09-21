@@ -2,9 +2,9 @@
     <head>
         <title>{{ config.title }}</title>
         <link href="{{url_for('frontend', path='static/main-styles.css')}}" rel="stylesheet">
-        <link href="{{url_for('frontend', path='static/custom-styles.css')}}" rel="stylesheet">
+        <link href="{{url_for('frontend', path='static/custom-styles.css')}}?v=123" rel="stylesheet">
         <link rel="icon" type="image/png" href="{{url_for('frontend', path='icon.png')}}" />
-        <script src="{{url_for('frontend', path='static/script.js')}}"></script>
+        <script src="{{url_for('frontend', path='static/script.js')}}?v=123"></script>
     </head>
     <body>
         <nav>
@@ -18,8 +18,9 @@
                 </div>
                 <div class="column-xs-12 subhighlight">
                   <ul id="nav-menu">
-                    <li><a href="/random">🎲 Random</a></li>
-                    <li><a href="/ranked">🥇 All-time ranking</a></li>
+                    <li><a id="random-nav-item" class="unselected-nav-item" href="/random">🎲 Random</a></li>
+                    <li><a id="ranked-nav-item" class="unselected-nav-item" href="/ranked">🥇 All-time ranking</a></li>
+                    <script>setClicked("{{nav}}-nav-item")</script>
                   </ul>
                 </div>
               </div>
@@ -43,7 +44,7 @@
                                       🎬
                                     </a>
                                     <button title="Upvote this image" class="vote-counter" onclick="upvote('{{video.id}}')">
-                                      👍<b id="vote-total-number-{{video.id}}" style="font-size: 0.7em;">{{video.votes|length}}</b>
+                                      👍<b id="vote-total-number-{{video.id}}" style="font-size: 1.5vh;">{{video.votes|length}}</b>
                                     </button>
                                   </div>
                                 </div>

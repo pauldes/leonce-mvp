@@ -59,19 +59,19 @@ img {
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     text-align: center;
+    font-size: 2.5vh;
+    line-height: 1.2em;
   }
 
 .title-displayer {
     color: #6d6d6d;
-    font-size: 1.5em;
-    line-height: 1.2em;
     font-weight: 500;
     opacity: 1.0;
   }
 
 .vote-counter {
+    font-size: 2.5vh;
     color: #424242;
-    font-size: 1.5em;
     line-height: 2.1em;
     margin: 10 10 10 10;
     font-weight: lighter;
@@ -120,11 +120,17 @@ nav {
     padding: 1rem 1rem 0 1rem;
 }
 
-#nav-menu li:hover {
+#nav-menu li a:hover {
     /* text-decoration: underline; */
     color: #2e2e2e;
-    font-weight: bold;
-    text-shadow: 4px 4px 8px rgb(94, 94, 94);
+    font-weight: 530;
+    /* text-shadow: 4px 4px 8px rgb(94, 94, 94); */
+}
+
+.selected-nav-item {
+    /* text-decoration: underline; */
+    font-weight: 530;
+    /* text-shadow: 4px 4px 8px rgb(94, 94, 94); */
 }
 
 .img-container {
