@@ -29,6 +29,22 @@ def get_db():
     finally:
         db.close()
 
+def hash_file(file_path):
+    """ Compute the hash of a file.
+
+    Args:
+        file_path (str): Path to the file
+
+    Returns:
+        int: hash of the file content
+    """
+    with open(file_path, "r") as file_reader:
+        content = file_reader.read()
+        return int(hash(content))
+
+js_file_version = hash_file("./frontend/static/script.js")
+css_file_version = hash_file("./frontend/static/custom-styles.css")
+
 app = FastAPI(
     title=config.api.title,
     description="Léonce-MVP project.",
@@ -72,7 +88,6 @@ async def upvote_video(request: Request, video_id: str, db: Session = Depends(ge
     hashed_ip = hashlib.sha256(ip.encode('utf-8')).hexdigest()
     db_vote = crud.get_vote_by_ip_and_video_id(db, hashed_ip, video_id)
     if db_vote:
-        #raise HTTPException(status_code=403, detail="Vote already registered for IP " + hashed_ip + " and video " + video_id)
         raise HTTPException(status_code=403, detail="Vote already registered for this IP and video")
         # Choose if we allow multiple votes per IP..
     else:
@@ -83,17 +98,30 @@ async def upvote_video(request: Request, video_id: str, db: Session = Depends(ge
 async def show_random(request: Request, db: Session = Depends(get_db)):
     videos = crud.get_videos(db, skip=0, limit=666)
     random.shuffle(videos)
-    return templates.TemplateResponse("home.html", {"request": request, "config": config.frontend, "videos": videos, "nav": "random"})
+    return templates.TemplateResponse(
+        "home.html", 
+        {
+            "request": request, 
+            "config": config.frontend, 
+            "videos": videos, 
+            "nav": "random",
+            "css_version": css_file_version,
+            "js_version": js_file_version
+            })
 
 @app.get("/ranked", response_class=HTMLResponse)
 async def show_ranked(request: Request, db: Session = Depends(get_db)):
     videos = crud.get_videos(db, skip=0, limit=666, ordered_by_votes=True)
-    return templates.TemplateResponse("home.html", {"request": request, "config": config.frontend, "videos": videos, "nav": "ranked"})
-
-@app.get("/home", response_class=HTMLResponse)
-async def show_home(request: Request, db: Session = Depends(get_db)):
-    videos = crud.get_videos(db, skip=0, limit=666)
-    return templates.TemplateResponse("home.html", {"request": request, "config": config.frontend, "videos": videos})
+    return templates.TemplateResponse(
+        "home.html", 
+        {
+            "request": request, 
+            "config": config.frontend, 
+            "videos": videos, 
+            "nav": "ranked",
+            "css_version": css_file_version,
+            "js_version": js_file_version
+            })
 
 def update_database_effective(request: Request, db: Session = Depends(get_db)):
     videos = get_videos()
