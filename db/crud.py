@@ -13,6 +13,8 @@ def get_videos(db: Session, skip: int = 0, limit: int = 100, ordered_by_votes: b
         res = db.query(models.Video).offset(skip).limit(limit).all()
         res = sorted(res, key = lambda video: len(video.votes), reverse=True )
         #TODO SQL ordering instead of python
+        res = [video for vido in res if len(video.votes)>0]
+        #TODO SQL filter instead of python
     else:
         res = db.query(models.Video).offset(skip).limit(limit).all()
     return res
