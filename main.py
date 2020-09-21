@@ -96,7 +96,7 @@ async def upvote_video(request: Request, video_id: str, db: Session = Depends(ge
 
 @app.get("/random", response_class=HTMLResponse)
 async def show_random(request: Request, db: Session = Depends(get_db)):
-    videos = crud.get_videos(db, skip=0, limit=666)
+    videos = crud.get_videos(db, skip=0, limit=1000)
     random.shuffle(videos)
     return templates.TemplateResponse(
         "home.html", 
@@ -111,7 +111,7 @@ async def show_random(request: Request, db: Session = Depends(get_db)):
 
 @app.get("/ranked", response_class=HTMLResponse)
 async def show_ranked(request: Request, db: Session = Depends(get_db)):
-    videos = crud.get_videos(db, skip=0, limit=666, ordered_by_votes=True)
+    videos = crud.get_videos(db, skip=0, limit=1000, ordered_by_votes=True)
     return templates.TemplateResponse(
         "home.html", 
         {
