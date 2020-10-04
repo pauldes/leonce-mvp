@@ -100,6 +100,7 @@ async def upvote_video(request: Request, video_id: str, db: Session = Depends(ge
 async def show_random(request: Request, db: Session = Depends(get_db)):
     videos = crud.get_videos(db, skip=0, limit=1000)
     random.shuffle(videos)
+    videos = videos[:20]
     return templates.TemplateResponse(
         "home.html", 
         {
