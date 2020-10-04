@@ -48,7 +48,9 @@ css_file_version = hash_file("./frontend/static/custom-styles.css")
 app = FastAPI(
     title=config.api.title,
     description="Léonce-MVP project.",
-    version="0.1")
+    version="0.1",
+    docs_url=None,
+    redoc_url=None)
 app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
 
 @app.on_event("startup")
