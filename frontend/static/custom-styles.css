@@ -137,6 +137,23 @@ nav {
     /* text-shadow: 4px 4px 8px rgb(94, 94, 94); */
 }
 
+.footer-button {
+    /* font-size: 1.5rem; */
+    color: #2e2e2e;
+    background-color: none;
+    border: none;
+    font-size: 1.7rem;
+}
+
+.gallery {
+    padding-bottom: 0;
+}
+
+.footer-button a:hover {
+    font-weight: 530;
+    text-shadow: 4px 4px 8px rgb(94, 94, 94);
+}
+
 .img-container {
     width: 100%;
     height:auto;
