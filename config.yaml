@@ -1,5 +1,6 @@
 api:
   title: Leonce MVP
+  num_random_videos: 100
 
 frontend:
   title: Léonce MVP.
@@ -7,7 +8,3 @@ frontend:
 crawler:
   channel: TrashTalkProduction
   scrolls: 100
-
-database:
-  dev: hello
-  prod: hello

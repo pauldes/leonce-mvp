@@ -99,7 +99,7 @@ async def upvote_video(request: Request, video_id: str, db: Session = Depends(ge
 @app.get("/random", response_class=HTMLResponse)
 async def show_random(request: Request, db: Session = Depends(get_db)):
     videos = crud.get_videos(db, skip=0, limit=1000)
-    num_videos = min(50, len(videos))
+    num_videos = min(config.api.num_random_videos, len(videos))
     videos = random.sample(videos, k=num_videos)
     return templates.TemplateResponse(
         "home.html", 
