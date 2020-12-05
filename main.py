@@ -82,7 +82,7 @@ def read_video(video_id: int, db: Session = Depends(get_db)):
 
 @app.get("/")
 async def root():
-    return RedirectResponse(url='/random')
+    return RedirectResponse(url='/ranked')
 
 @app.post("/api/upvote/{video_id}")
 async def upvote_video(request: Request, video_id: str, db: Session = Depends(get_db)):
@@ -139,7 +139,7 @@ def update_database_effective(request: Request, db: Session = Depends(get_db)):
 
 @app.get("/api/update-database")
 async def update_database(background_tasks: BackgroundTasks, request: Request, db: Session = Depends(get_db)):
-    # background_tasks.add_task(update_database_effective, request, db=db)
+    background_tasks.add_task(update_database_effective, request, db=db)
     # return {"message": "Database will be updated."}
     return {"message": "Database update is disabled."}
 

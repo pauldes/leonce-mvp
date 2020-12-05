@@ -7,4 +7,4 @@ frontend:
 
 crawler:
   channel: TrashTalkProduction
-  scrolls: 100
+  scrolls: 10
