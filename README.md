@@ -17,3 +17,8 @@ pipenv run uvicorn main:app --reload
 pipenv run python main.py -u 
 or
 pipenv run python main.py --update-database 
+
+
+## TODO
+
+Run database update periodically on heroku
